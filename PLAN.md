@@ -1,56 +1,39 @@
-# Django + React SPA (CSR) Setup Plan
+# Django + React SPA (CSR) — Setup Plan
 
-## Django backend changes
+## Status
 
-1. **Install packages:**
-   ```
-   pip install djangorestframework django-cors-headers
-   ```
+| Step | Status |
+|------|--------|
+| Django project created | ✅ |
+| `djangorestframework` + `corsheaders` installed | ✅ |
+| DRF API endpoint (`/api/hello/`) | ✅ |
+| CORS configured for `localhost:5173` | ✅ |
+| SECRET_KEY via env var with dev fallback | ✅ |
+| `.env.example` | ✅ |
+| AGENTS.md project rules | ✅ |
+| AI agent skills installed (Python/Django/React) | ✅ |
+| `requirements.txt` (pinned) | ✅ |
+| React + Vite frontend scaffolded | ✅ |
+| Vite proxy `/api` → Django | ✅ |
+| `App.tsx` fetches from `/api/hello/` | ✅ |
+| `make dev` single-command runner | ✅ |
+| `README.md` with run instructions | ✅ |
+| GitHub repo created and pushed | ✅ |
 
-2. **`helloworld/settings.py`:**
-   - Add `rest_framework` and `corsheaders` to `INSTALLED_APPS`
-   - Add `CorsMiddleware` to `MIDDLEWARE` (top of the list)
-   - Add `CORS_ALLOWED_ORIGINS = ["http://localhost:5173"]`
+## Run the app
 
-3. **`hello/views.py`**: Add a DRF API view, e.g.:
-   ```python
-   from rest_framework.decorators import api_view
-   from rest_framework.response import Response
-
-   @api_view(["GET"])
-   def hello_api(request):
-       return Response({"message": "Hello from Django!"})
-   ```
-
-4. **`hello/urls.py`**: Add an `/api/hello/` route
-
-5. **`helloworld/urls.py`**: Add a top-level `/api/` include
-
-## React frontend setup
-
-6. Create `frontend/` with Vite + React + TypeScript:
-   ```
-   npm create vite@latest frontend -- --template react-ts
-   ```
-
-7. **`frontend/vite.config.ts`**: Proxy `/api` to Django:
-   ```ts
-   server: {
-     proxy: {
-       "/api": "http://localhost:8000"
-     }
-   }
-   ```
-
-8. **`frontend/src/App.tsx`**: Fetch from `/api/hello/` and display the message
-
-9. **Root `frontend/package.json`**: Add dev script (`npm run dev` starts Vite on `:5173`)
-
-## Dev workflow
-
-```
-Terminal 1:  source .venv/bin/activate && python manage.py runserver   (Django on :8000)
-Terminal 2:  cd frontend && npm run dev                                 (Vite on :5173)
+```bash
+make dev
 ```
 
-React dev server proxies `/api/*` → Django. No CORS issues in dev with the proxy; CORS config is there for production.
+Or separately:
+
+```bash
+# Terminal 1 — Django on :8000
+source .venv/bin/activate && python manage.py runserver
+
+# Terminal 2 — Vite on :5173
+cd frontend && npm run dev
+```
+
+Open `http://localhost:5173`.
