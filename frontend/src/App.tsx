@@ -1,19 +1,16 @@
-import { useState, useEffect } from 'react'
+import { BrowserRouter, Routes, Route } from "react-router-dom"
+import EmployeeList from "./pages/EmployeeList"
+import EmployeeForm from "./pages/EmployeeForm"
 
 function App() {
-  const [message, setMessage] = useState("")
-
-  useEffect(() => {
-    fetch("/api/hello/")
-      .then((res) => res.json())
-      .then((data) => setMessage(data.message))
-      .catch(() => setMessage("Failed to connect to backend"))
-  }, [])
-
   return (
-    <div style={{ fontFamily: "sans-serif", padding: "2rem" }}>
-      <h1>{message || "Loading..."}</h1>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<EmployeeList />} />
+        <Route path="/employees/new" element={<EmployeeForm />} />
+        <Route path="/employees/:id/edit" element={<EmployeeForm />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
 
